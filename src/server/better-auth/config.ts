@@ -8,6 +8,8 @@ export const auth = betterAuth({
 	database: prismaAdapter(db, {
 		provider: "postgresql", // or "sqlite" or "mysql"
 	}),
+	baseURL: env.BETTER_AUTH_URL || "http://localhost:3000",
+	trustedOrigins: [env.BETTER_AUTH_URL || "http://localhost:3000"],
 	user: {
 		additionalFields: {
 			isAdmin: {
@@ -29,7 +31,7 @@ export const auth = betterAuth({
 					github: {
 						clientId: env.BETTER_AUTH_GITHUB_CLIENT_ID,
 						clientSecret: env.BETTER_AUTH_GITHUB_CLIENT_SECRET,
-						redirectURI: "http://localhost:3000/api/auth/callback/github",
+						redirectURI: `${env.BETTER_AUTH_URL || "http://localhost:3000"}/api/auth/callback/github`,
 					},
 				}
 			: {},
