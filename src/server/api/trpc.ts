@@ -7,7 +7,11 @@
  * need to use are documented accordingly near the end.
  */
 
-import { initTRPC, TRPCError } from "@trpc/server";
+import {
+	type inferProcedureBuilderResolverOptions,
+	initTRPC,
+	TRPCError,
+} from "@trpc/server";
 import superjson from "superjson";
 import { ZodError } from "zod";
 
@@ -153,3 +157,15 @@ export const adminProcedure = protectedProcedure.use(({ ctx, next }) => {
 	}
 	return next({ ctx });
 });
+
+export type ProcedureCtx = inferProcedureBuilderResolverOptions<
+	typeof protectedProcedure
+>["ctx"];
+
+export type Controller<Input, Output> = ({
+	input,
+	ctx,
+}: {
+	input: Input;
+	ctx: ProcedureCtx;
+}) => Promise<Output>;

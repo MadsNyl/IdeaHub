@@ -1,7 +1,8 @@
 "use client";
 
 import type { ColumnDef } from "@tanstack/react-table";
-import { MoreHorizontal } from "lucide-react";
+import { format } from "date-fns";
+import { Eye, MoreHorizontal, Pencil, Trash2 } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
@@ -11,7 +12,6 @@ import {
 	DropdownMenu,
 	DropdownMenuContent,
 	DropdownMenuItem,
-	DropdownMenuLabel,
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
@@ -41,25 +41,34 @@ function IdeaActions({ idea }: { idea: Idea }) {
 	return (
 		<DropdownMenu>
 			<DropdownMenuTrigger asChild>
-				<Button className="h-8 w-8 p-0" variant="ghost">
+				<Button
+					className="h-8 w-8 p-0 opacity-0 transition-opacity group-hover:opacity-100 data-[state=open]:opacity-100"
+					variant="ghost"
+				>
 					<span className="sr-only">Open menu</span>
 					<MoreHorizontal className="h-4 w-4" />
 				</Button>
 			</DropdownMenuTrigger>
-			<DropdownMenuContent align="end">
-				<DropdownMenuLabel>Actions</DropdownMenuLabel>
+			<DropdownMenuContent align="end" className="w-40">
+				<DropdownMenuItem asChild className="gap-2">
+					<Link href={`/ideas/${idea.id}`}>
+						<Eye className="h-4 w-4" />
+						View
+					</Link>
+				</DropdownMenuItem>
+				<DropdownMenuItem asChild className="gap-2">
+					<Link href={`/ideas/${idea.id}/edit`}>
+						<Pencil className="h-4 w-4" />
+						Edit
+					</Link>
+				</DropdownMenuItem>
 				<DropdownMenuSeparator />
-				<DropdownMenuItem asChild>
-					<Link href={`/ideas/${idea.id}`}>View</Link>
-				</DropdownMenuItem>
-				<DropdownMenuItem asChild>
-					<Link href={`/ideas/${idea.id}/edit`}>Edit</Link>
-				</DropdownMenuItem>
 				<DropdownMenuItem
-					className="text-destructive"
+					className="gap-2 text-destructive focus:text-destructive"
 					disabled={deleteIdea.isPending}
 					onClick={() => deleteIdea.mutate({ id: idea.id })}
 				>
+					<Trash2 className="h-4 w-4" />
 					Delete
 				</DropdownMenuItem>
 			</DropdownMenuContent>
@@ -70,12 +79,16 @@ function IdeaActions({ idea }: { idea: Idea }) {
 export const columns: ColumnDef<Idea>[] = [
 	{
 		accessorKey: "title",
-		header: "Title",
+		header: () => (
+			<span className="font-medium text-muted-foreground text-xs uppercase tracking-wider">
+				Title
+			</span>
+		),
 		cell: ({ row }) => {
 			const idea = row.original;
 			return (
 				<Link
-					className="font-medium hover:underline"
+					className="font-medium text-sm transition-colors hover:text-primary"
 					href={`/ideas/${idea.id}`}
 				>
 					{idea.title}
@@ -85,29 +98,49 @@ export const columns: ColumnDef<Idea>[] = [
 	},
 	{
 		accessorKey: "description",
-		header: "Description",
+		header: () => (
+			<span className="font-medium text-muted-foreground text-xs uppercase tracking-wider">
+				Description
+			</span>
+		),
 		cell: ({ row }) => {
 			const description = row.getValue("description") as string;
 			const plainText = description.replace(/<[^>]*>/g, "");
 			const truncated =
-				plainText.length > 100 ? `${plainText.slice(0, 100)}...` : plainText;
-			return <span className="text-muted-foreground">{truncated}</span>;
+				plainText.length > 80 ? `${plainText.slice(0, 80)}...` : plainText;
+			return <span className="text-muted-foreground text-sm">{truncated}</span>;
 		},
 	},
 	{
 		accessorKey: "createdAt",
-		header: "Created",
+		header: () => (
+			<span className="font-medium text-muted-foreground text-xs uppercase tracking-wider">
+				Created
+			</span>
+		),
 		cell: ({ row }) => {
 			const date = row.getValue("createdAt") as Date;
-			return new Date(date).toLocaleDateString();
+			return (
+				<span className="text-muted-foreground text-sm">
+					{format(new Date(date), "MMM d, yyyy")}
+				</span>
+			);
 		},
 	},
 	{
 		accessorKey: "updatedAt",
-		header: "Updated",
+		header: () => (
+			<span className="font-medium text-muted-foreground text-xs uppercase tracking-wider">
+				Updated
+			</span>
+		),
 		cell: ({ row }) => {
 			const date = row.getValue("updatedAt") as Date;
-			return new Date(date).toLocaleDateString();
+			return (
+				<span className="text-muted-foreground text-sm">
+					{format(new Date(date), "MMM d, yyyy")}
+				</span>
+			);
 		},
 	},
 	{

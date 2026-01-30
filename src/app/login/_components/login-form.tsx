@@ -1,5 +1,6 @@
 "use client";
 
+import { Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { authClient } from "~/server/better-auth/client";
@@ -65,21 +66,24 @@ export function LoginForm() {
 	};
 
 	return (
-		<div className="w-full max-w-md space-y-8">
+		<div className="w-full space-y-6">
+			{/* Header */}
 			<div className="text-center">
-				<h1 className="font-bold text-3xl text-foreground tracking-tight">
+				<h1 className="font-semibold text-2xl tracking-tight">
 					{mode === "signin" ? "Welcome back" : "Create your account"}
 				</h1>
-				<p className="mt-2 text-muted-foreground">
+				<p className="mt-2 text-muted-foreground text-sm">
 					{mode === "signin"
 						? "Sign in to continue to IdeaHub"
 						: "Get started with IdeaHub today"}
 				</p>
 			</div>
 
-			<div className="rounded-xl border border-border bg-card p-8">
+			{/* Card */}
+			<div className="rounded-2xl border border-border/50 bg-card/50 p-6">
+				{/* GitHub Button */}
 				<button
-					className="flex w-full items-center justify-center gap-3 rounded-lg border border-border bg-background px-4 py-3 font-medium text-foreground transition-colors hover:bg-accent disabled:cursor-not-allowed disabled:opacity-50"
+					className="flex h-11 w-full items-center justify-center gap-2.5 rounded-xl border border-border/50 bg-background/50 font-medium text-sm transition-all hover:border-border hover:bg-background disabled:cursor-not-allowed disabled:opacity-50"
 					disabled={loading}
 					onClick={handleGitHubSignIn}
 					type="button"
@@ -99,28 +103,30 @@ export function LoginForm() {
 					Continue with GitHub
 				</button>
 
+				{/* Divider */}
 				<div className="relative my-6">
 					<div className="absolute inset-0 flex items-center">
-						<div className="w-full border-border border-t" />
+						<div className="w-full border-border/50 border-t" />
 					</div>
-					<div className="relative flex justify-center text-sm">
-						<span className="bg-card px-4 text-muted-foreground">
-							or continue with email
+					<div className="relative flex justify-center">
+						<span className="bg-card/50 px-3 text-muted-foreground/60 text-xs uppercase tracking-wider">
+							or
 						</span>
 					</div>
 				</div>
 
+				{/* Form */}
 				<form className="space-y-4" onSubmit={handleSubmit}>
 					{mode === "signup" && (
-						<div>
+						<div className="space-y-1.5">
 							<label
-								className="block font-medium text-foreground text-sm"
+								className="font-medium text-muted-foreground text-xs uppercase tracking-wider"
 								htmlFor="name"
 							>
 								Name
 							</label>
 							<input
-								className="mt-1 block w-full rounded-lg border border-border bg-input px-4 py-3 text-foreground placeholder:text-muted-foreground focus:border-ring focus:outline-none focus:ring-2 focus:ring-ring/20"
+								className="block h-11 w-full rounded-xl border border-border/50 bg-background/50 px-4 text-sm transition-colors placeholder:text-muted-foreground/50 focus:border-border focus:bg-background focus:outline-none"
 								id="name"
 								onChange={(e) => setName(e.target.value)}
 								placeholder="Your name"
@@ -131,15 +137,15 @@ export function LoginForm() {
 						</div>
 					)}
 
-					<div>
+					<div className="space-y-1.5">
 						<label
-							className="block font-medium text-foreground text-sm"
+							className="font-medium text-muted-foreground text-xs uppercase tracking-wider"
 							htmlFor="email"
 						>
 							Email
 						</label>
 						<input
-							className="mt-1 block w-full rounded-lg border border-border bg-input px-4 py-3 text-foreground placeholder:text-muted-foreground focus:border-ring focus:outline-none focus:ring-2 focus:ring-ring/20"
+							className="block h-11 w-full rounded-xl border border-border/50 bg-background/50 px-4 text-sm transition-colors placeholder:text-muted-foreground/50 focus:border-border focus:bg-background focus:outline-none"
 							id="email"
 							onChange={(e) => setEmail(e.target.value)}
 							placeholder="you@example.com"
@@ -149,19 +155,19 @@ export function LoginForm() {
 						/>
 					</div>
 
-					<div>
+					<div className="space-y-1.5">
 						<label
-							className="block font-medium text-foreground text-sm"
+							className="font-medium text-muted-foreground text-xs uppercase tracking-wider"
 							htmlFor="password"
 						>
 							Password
 						</label>
 						<input
-							className="mt-1 block w-full rounded-lg border border-border bg-input px-4 py-3 text-foreground placeholder:text-muted-foreground focus:border-ring focus:outline-none focus:ring-2 focus:ring-ring/20"
+							className="block h-11 w-full rounded-xl border border-border/50 bg-background/50 px-4 text-sm transition-colors placeholder:text-muted-foreground/50 focus:border-border focus:bg-background focus:outline-none"
 							id="password"
 							minLength={8}
 							onChange={(e) => setPassword(e.target.value)}
-							placeholder="••••••••"
+							placeholder="Enter your password"
 							required
 							type="password"
 							value={password}
@@ -169,18 +175,19 @@ export function LoginForm() {
 					</div>
 
 					{error && (
-						<div className="rounded-lg bg-destructive/10 px-4 py-3 text-destructive text-sm">
+						<div className="rounded-lg bg-destructive/10 px-3 py-2.5 text-destructive text-sm">
 							{error}
 						</div>
 					)}
 
 					<button
-						className="w-full rounded-lg bg-primary px-4 py-3 font-medium text-primary-foreground transition-colors hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-50"
+						className="flex h-11 w-full items-center justify-center gap-2 rounded-xl bg-primary font-medium text-primary-foreground text-sm transition-colors hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-50"
 						disabled={loading}
 						type="submit"
 					>
+						{loading && <Loader2 className="h-4 w-4 animate-spin" />}
 						{loading
-							? "Loading..."
+							? "Please wait..."
 							: mode === "signin"
 								? "Sign in"
 								: "Create account"}
@@ -188,12 +195,13 @@ export function LoginForm() {
 				</form>
 			</div>
 
+			{/* Footer */}
 			<p className="text-center text-muted-foreground text-sm">
 				{mode === "signin" ? (
 					<>
 						Don&apos;t have an account?{" "}
 						<button
-							className="font-medium text-primary hover:underline"
+							className="font-medium text-foreground transition-colors hover:text-primary"
 							onClick={() => {
 								setMode("signup");
 								setError(null);
@@ -207,7 +215,7 @@ export function LoginForm() {
 					<>
 						Already have an account?{" "}
 						<button
-							className="font-medium text-primary hover:underline"
+							className="font-medium text-foreground transition-colors hover:text-primary"
 							onClick={() => {
 								setMode("signin");
 								setError(null);

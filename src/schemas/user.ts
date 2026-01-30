@@ -10,7 +10,12 @@ export const updateUserAdminSchema = z.object({
 	isAdmin: z.boolean(),
 });
 
+export const updateProfileSchema = z.object({
+	name: z.string().min(1, "Name is required").max(100, "Name is too long"),
+});
+
 export type UpdateUserVerificationInput = z.infer<
 	typeof updateUserVerificationSchema
 >;
 export type UpdateUserAdminInput = z.infer<typeof updateUserAdminSchema>;
+export type UpdateProfileInput = z.infer<typeof updateProfileSchema>;

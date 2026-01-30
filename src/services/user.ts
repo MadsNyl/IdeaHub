@@ -51,3 +51,33 @@ export async function listUsers({
 		},
 	};
 }
+
+export async function getUserAccounts(userId: string) {
+	return db.account.findMany({
+		where: { userId },
+		select: {
+			id: true,
+			providerId: true,
+			accountId: true,
+			createdAt: true,
+		},
+	});
+}
+
+export async function getUserSessions(userId: string) {
+	return db.session.findMany({
+		where: {
+			userId,
+			expiresAt: { gt: new Date() },
+		},
+		select: {
+			id: true,
+			token: true,
+			ipAddress: true,
+			userAgent: true,
+			createdAt: true,
+			expiresAt: true,
+		},
+		orderBy: { createdAt: "desc" },
+	});
+}

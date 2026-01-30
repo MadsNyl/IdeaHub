@@ -1,4 +1,5 @@
 import { ideaRouter } from "~/server/api/routers/idea";
+import { noteRouter } from "~/server/api/routers/note";
 import { postRouter } from "~/server/api/routers/post";
 import { userRouter } from "~/server/api/routers/user";
 import { createCallerFactory, createTRPCRouter } from "~/server/api/trpc";
@@ -10,6 +11,7 @@ import { createCallerFactory, createTRPCRouter } from "~/server/api/trpc";
  */
 export const appRouter = createTRPCRouter({
 	idea: ideaRouter,
+	note: noteRouter,
 	post: postRouter,
 	user: userRouter,
 });

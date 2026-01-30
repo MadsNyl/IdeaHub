@@ -32,13 +32,16 @@ export function DataTable<TData, TValue>({
 	});
 
 	return (
-		<div className="rounded-md border">
+		<div className="overflow-hidden rounded-xl border border-border/50">
 			<Table>
 				<TableHeader>
 					{table.getHeaderGroups().map((headerGroup) => (
-						<TableRow key={headerGroup.id}>
+						<TableRow
+							className="border-border/50 hover:bg-transparent"
+							key={headerGroup.id}
+						>
 							{headerGroup.headers.map((header) => (
-								<TableHead key={header.id}>
+								<TableHead className="h-11 bg-muted/30" key={header.id}>
 									{header.isPlaceholder
 										? null
 										: flexRender(
@@ -54,11 +57,12 @@ export function DataTable<TData, TValue>({
 					{table.getRowModel().rows?.length ? (
 						table.getRowModel().rows.map((row) => (
 							<TableRow
+								className="group border-border/50 transition-colors"
 								data-state={row.getIsSelected() && "selected"}
 								key={row.id}
 							>
 								{row.getVisibleCells().map((cell) => (
-									<TableCell key={cell.id}>
+									<TableCell className="py-3" key={cell.id}>
 										{flexRender(cell.column.columnDef.cell, cell.getContext())}
 									</TableCell>
 								))}
@@ -66,8 +70,11 @@ export function DataTable<TData, TValue>({
 						))
 					) : (
 						<TableRow>
-							<TableCell className="h-24 text-center" colSpan={columns.length}>
-								No results.
+							<TableCell
+								className="h-32 text-center text-muted-foreground"
+								colSpan={columns.length}
+							>
+								No results found.
 							</TableCell>
 						</TableRow>
 					)}

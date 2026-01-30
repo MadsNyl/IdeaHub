@@ -93,3 +93,32 @@ export async function getIdeaById(id: string) {
 		},
 	});
 }
+
+export async function getAllIdeas(search?: string) {
+	const where = search
+		? {
+				OR: [
+					{ title: { contains: search, mode: "insensitive" as const } },
+					{ description: { contains: search, mode: "insensitive" as const } },
+				],
+			}
+		: {};
+
+	return db.idea.findMany({
+		where,
+		orderBy: { createdAt: "desc" },
+		select: {
+			id: true,
+			title: true,
+			description: true,
+			createdAt: true,
+			createdBy: {
+				select: {
+					id: true,
+					name: true,
+					image: true,
+				},
+			},
+		},
+	});
+}

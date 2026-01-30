@@ -27,6 +27,15 @@ model Post {
   @@index([name])
 }
 
+enum NoteType {
+  RESEARCH
+  MEETING
+  FEEDBACK
+  TASK
+  BRAINSTORM
+  REFERENCE
+}
+
 model Idea {
   id          String   @id @default(cuid())
   title       String
@@ -37,8 +46,25 @@ model Idea {
   createdBy   User   @relation(fields: [createdById], references: [id])
   createdById String
 
+  notes       Note[]
+
   @@index([title])
   @@index([createdById])
+}
+
+model Note {
+  id          String   @id @default(cuid())
+  title       String
+  description String   @db.Text
+  type        NoteType
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  idea        Idea     @relation(fields: [ideaId], references: [id], onDelete: Cascade)
+  ideaId      String
+
+  @@index([ideaId])
+  @@index([type])
 }
 
 model User {

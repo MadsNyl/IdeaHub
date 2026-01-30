@@ -27,21 +27,24 @@ export default async function AdminUsersPage({
 
 	return (
 		<div className="flex h-full flex-col">
-			<header className="border-b bg-background px-6 py-4">
-				<div className="flex items-center justify-between">
-					<div>
-						<h1 className="font-bold text-2xl">User Management</h1>
-						<p className="text-muted-foreground text-sm">
-							Manage user accounts, verification, and admin access
-						</p>
-					</div>
+			{/* Header */}
+			<header className="border-border/40 border-b px-8 py-6">
+				<div className="space-y-1">
+					<h1 className="font-semibold text-2xl tracking-tight">
+						User Management
+					</h1>
+					<p className="text-muted-foreground text-sm">
+						Manage accounts, verification status, and admin permissions
+					</p>
 				</div>
 			</header>
-			<main className="flex-1 space-y-6 p-6">
+
+			{/* Content */}
+			<main className="flex-1 space-y-6 p-8">
 				<div className="flex items-center gap-4">
 					<SearchInput
-						className="max-w-sm"
-						placeholder="Search users by name or email..."
+						className="w-full max-w-xs"
+						placeholder="Search users..."
 					/>
 				</div>
 				<UsersTable data={data} />

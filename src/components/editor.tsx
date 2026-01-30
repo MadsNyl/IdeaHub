@@ -12,6 +12,7 @@ import {
 	Strikethrough,
 	Undo,
 } from "lucide-react";
+import { useEffect } from "react";
 
 import { cn } from "~/lib/utils";
 import { Button } from "./ui/button";
@@ -36,16 +37,26 @@ export function Editor({
 		],
 		content,
 		immediatelyRender: false,
+		parseOptions: {
+			preserveWhitespace: "full",
+		},
 		editorProps: {
 			attributes: {
 				class:
-					"prose prose-invert prose-sm max-w-none min-h-[200px] p-4 focus:outline-none",
+					"prose prose-invert max-w-none min-h-[500px] p-4 focus:outline-none",
 			},
 		},
 		onUpdate: ({ editor }) => {
 			onChange(editor.getHTML());
 		},
 	});
+
+	// Update editor content when content prop changes
+	useEffect(() => {
+		if (editor && content && editor.getHTML() !== content) {
+			editor.commands.setContent(content);
+		}
+	}, [content, editor]);
 
 	if (!editor) {
 		return null;

@@ -1,6 +1,13 @@
 "use client";
 
-import { Home, Lightbulb, Settings, Shield, Users } from "lucide-react";
+import {
+	Home,
+	Lightbulb,
+	Settings,
+	Shield,
+	Sparkles,
+	Users,
+} from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -34,24 +41,32 @@ export function AppSidebar({ isAdmin }: AppSidebarProps) {
 	const pathname = usePathname();
 
 	return (
-		<Sidebar>
-			<SidebarHeader>
-				<div className="flex items-center gap-2 px-2 py-2">
-					<Lightbulb className="h-6 w-6 text-purple-500" />
-					<span className="font-bold text-lg">IdeaHub</span>
-				</div>
+		<Sidebar className="border-r-0">
+			<SidebarHeader className="px-4 py-6">
+				<Link className="group flex items-center gap-3" href="/">
+					<div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary/10 transition-colors group-hover:bg-primary/20">
+						<Sparkles className="h-5 w-5 text-primary" />
+					</div>
+					<span className="font-semibold text-lg tracking-tight">IdeaHub</span>
+				</Link>
 			</SidebarHeader>
-			<SidebarContent>
+			<SidebarContent className="px-2">
 				<SidebarGroup>
-					<SidebarGroupLabel>Navigation</SidebarGroupLabel>
+					<SidebarGroupLabel className="mb-2 px-3 font-medium text-[11px] text-muted-foreground/70 uppercase tracking-wider">
+						Navigation
+					</SidebarGroupLabel>
 					<SidebarGroupContent>
-						<SidebarMenu>
+						<SidebarMenu className="space-y-1">
 							{menuItems.map((item) => (
 								<SidebarMenuItem key={item.title}>
-									<SidebarMenuButton asChild isActive={pathname === item.url}>
+									<SidebarMenuButton
+										asChild
+										className="h-10 rounded-lg px-3 transition-all duration-200 hover:bg-accent/50 data-[active=true]:bg-accent data-[active=true]:text-accent-foreground"
+										isActive={pathname === item.url}
+									>
 										<Link href={item.url}>
-											<item.icon />
-											<span>{item.title}</span>
+											<item.icon className="h-4 w-4" />
+											<span className="font-medium">{item.title}</span>
 										</Link>
 									</SidebarMenuButton>
 								</SidebarMenuItem>
@@ -60,16 +75,22 @@ export function AppSidebar({ isAdmin }: AppSidebarProps) {
 					</SidebarGroupContent>
 				</SidebarGroup>
 				{isAdmin && (
-					<SidebarGroup>
-						<SidebarGroupLabel>Admin</SidebarGroupLabel>
+					<SidebarGroup className="mt-6">
+						<SidebarGroupLabel className="mb-2 px-3 font-medium text-[11px] text-muted-foreground/70 uppercase tracking-wider">
+							Admin
+						</SidebarGroupLabel>
 						<SidebarGroupContent>
-							<SidebarMenu>
+							<SidebarMenu className="space-y-1">
 								{adminItems.map((item) => (
 									<SidebarMenuItem key={item.title}>
-										<SidebarMenuButton asChild isActive={pathname === item.url}>
+										<SidebarMenuButton
+											asChild
+											className="h-10 rounded-lg px-3 transition-all duration-200 hover:bg-accent/50 data-[active=true]:bg-accent data-[active=true]:text-accent-foreground"
+											isActive={pathname === item.url}
+										>
 											<Link href={item.url}>
-												<item.icon />
-												<span>{item.title}</span>
+												<item.icon className="h-4 w-4" />
+												<span className="font-medium">{item.title}</span>
 											</Link>
 										</SidebarMenuButton>
 									</SidebarMenuItem>
@@ -79,10 +100,8 @@ export function AppSidebar({ isAdmin }: AppSidebarProps) {
 					</SidebarGroup>
 				)}
 			</SidebarContent>
-			<SidebarFooter>
-				<div className="px-2 py-2 text-muted-foreground text-xs">
-					© 2026 IdeaHub
-				</div>
+			<SidebarFooter className="px-4 py-4">
+				<div className="text-muted-foreground/50 text-xs">IdeaHub</div>
 			</SidebarFooter>
 		</Sidebar>
 	);

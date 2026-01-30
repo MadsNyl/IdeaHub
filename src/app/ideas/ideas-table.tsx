@@ -13,13 +13,14 @@ export function IdeasTable({ data }: IdeasTableProps) {
 	return (
 		<div className="space-y-4">
 			<DataTable columns={columns} data={data.ideas} />
-			<div className="flex items-center justify-between text-muted-foreground text-sm">
-				<div>
-					Showing {data.ideas.length} of {data.pagination.total} ideas
-				</div>
-				<div>
+			<div className="flex items-center justify-between border-border/40 border-t pt-4 text-muted-foreground text-xs">
+				<span>
+					{data.pagination.total}{" "}
+					{data.pagination.total === 1 ? "idea" : "ideas"} total
+				</span>
+				<span>
 					Page {data.pagination.page} of {data.pagination.totalPages}
-				</div>
+				</span>
 			</div>
 		</div>
 	);

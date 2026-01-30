@@ -7,8 +7,6 @@ import * as React from "react";
 import { useDebounce } from "~/hooks/use-debounce";
 import { cn } from "~/lib/utils";
 
-import { Input } from "./ui/input";
-
 interface SearchInputProps {
 	placeholder?: string;
 	paramKey?: string;
@@ -51,9 +49,9 @@ export function SearchInput({
 
 	return (
 		<div className={cn("relative", className)}>
-			<Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-			<Input
-				className="pr-9 pl-9"
+			<Search className="absolute top-1/2 left-3.5 h-4 w-4 -translate-y-1/2 text-muted-foreground/50" />
+			<input
+				className="h-10 w-full rounded-xl border border-border/50 bg-card/50 pr-9 pl-10 text-sm transition-colors placeholder:text-muted-foreground/50 focus:border-border focus:bg-card focus:outline-none"
 				onChange={(e) => setValue(e.target.value)}
 				placeholder={placeholder}
 				type="text"
@@ -61,7 +59,7 @@ export function SearchInput({
 			/>
 			{value && (
 				<button
-					className="absolute top-1/2 right-3 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+					className="absolute top-1/2 right-3 -translate-y-1/2 text-muted-foreground/50 transition-colors hover:text-foreground"
 					onClick={handleClear}
 					type="button"
 				>
