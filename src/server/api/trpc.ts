@@ -129,12 +129,6 @@ export const protectedProcedure = t.procedure
 		if (!ctx.session?.user) {
 			throw new TRPCError({ code: "UNAUTHORIZED" });
 		}
-		if (!ctx.session.user.emailVerified) {
-			throw new TRPCError({
-				code: "FORBIDDEN",
-				message: "Email verification required",
-			});
-		}
 		return next({
 			ctx: {
 				// infers the `session` as non-nullable
